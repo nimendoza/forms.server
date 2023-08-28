@@ -18,14 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nimendoza/server.git"
+    "url": "git+https://github.com/nimendoza/forms.server.git"
   },
   "author": "Neomi Mendoza",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nimendoza/server/issues"
+    "url": "https://github.com/nimendoza/forms.server/issues"
   },
-  "homepage": "https://github.com/nimendoza/server#readme",
+  "homepage": "https://github.com/nimendoza/forms.server#readme",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/body-parser": "^1.19.2",
