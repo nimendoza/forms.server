@@ -1,0 +1,57 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Server for https://www.ncisomendoza.com",
+  "main": "./out/index.js",
+  "files": [
+    "src",
+    "src/**/*.d.ts"
+  ],
+  "scripts": {
+    "start": "ts-node-esm ./src/index.ts",
+    "dev": "ts-node-dev --respawn --transpile-only ./src/index.ts",
+    "migrations:run": "ts-node ./node_modules/typeorm/cli.js migration:run --dataSource ./src/orm/index.ts",
+    "migrations:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert --dataSource ./src/orm/index.ts",
+    "migrations:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate --pretty --dataSource ./src/orm/index.ts ./src/orm/migrations/migration",
+    "migrations:create": "ts-node ./node_modules/typeorm/cli.js migration:create --pretty --dataSource ./src/orm/index.ts",
+    "types:generate": "npx openapi-typescript-codegen --input ./src/@types/openapi.yaml --output ./src/@types"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nimendoza/server.git"
+  },
+  "author": "Neomi Mendoza",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nimendoza/server/issues"
+  },
+  "homepage": "https://github.com/nimendoza/server#readme",
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/body-parser": "^1.19.2",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/js-yaml": "^4.0.5",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/morgan": "^1.9.5",
+    "@types/swagger-ui-express": "^4.1.3",
+    "dotenv": "^16.3.1",
+    "openapi-typescript-codegen": "^0.25.0",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "helmet": "^7.0.0",
+    "jsonwebtoken": "^9.0.1",
+    "morgan": "^1.10.0",
+    "pg": "^8.11.3",
+    "reflect-metadata": "^0.1.13",
+    "swagger-ui-express": "^5.0.0",
+    "typeorm": "^0.3.17"
+  }
+}
