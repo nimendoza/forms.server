@@ -1,11 +1,11 @@
 openapi: 3.0.3
 
 info:
-  title: server.ncisomendoza.com
+  title: forms.server.ncisomendoza.com
   version: 1.0.0
 
 servers:
-  - url: https://server.ncisomendoza.com
+  - url: https://forms.server.ncisomendoza.com
     description: Production server
 
 tags:

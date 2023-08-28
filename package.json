@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "Server for https://www.ncisomendoza.com",
+  "description": "Server for https://forms.ncisomendoza.com",
   "main": "./out/index.js",
   "files": [
     "src",
