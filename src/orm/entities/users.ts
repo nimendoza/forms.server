@@ -6,6 +6,11 @@ import type { Response } from 'orm/entities/responses'
 import type { Group } from 'orm/entities/groups'
 import type { Privilege } from 'orm/entities/privileges'
 
+export enum state {
+    enabled = 'ENABLED',
+    disabled = 'DISABLED',
+}
+
 type args = {
     email: string
     password: string
@@ -13,6 +18,7 @@ type args = {
     groups?: Group[]
     privileges?: Privilege[]
     responses?: Response[]
+    state?: state
 }
 
 @Entity('users')
@@ -31,6 +37,9 @@ export class User extends BaseEntity {
 
     @Column({ name: 'hashed_password' })
     private _hashed_password!: string
+
+    @Column({ type: 'enum', enum: state, default: state.disabled })
+    state!: state
 
     @ManyToMany('Group', (group: Group) => group.users)
     @JoinTable({
@@ -72,6 +81,7 @@ export class User extends BaseEntity {
             this.groups = args.groups || []
             this.privileges = args.privileges || []
             this.responses = args.responses || []
+            this.state = args.state || state.disabled
         }
     }
 
@@ -96,6 +106,7 @@ export class User extends BaseEntity {
             groups: exclude.includes('groups') ? undefined : this.groups.map((group: Group) => `${group.name} (${group.slug})`),
             privileges: exclude.includes('privileges') ? undefined : this.privileges.map((privilege: Privilege) => `${privilege.name} (${privilege.slug})`),
             responses: exclude.includes('responses') ? undefined : this.responses.map((response: Response) => `${response.name} (${response.slug})`),
+            state: exclude.includes('state') ? undefined : this.state,
         }
     }
 }

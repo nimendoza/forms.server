@@ -11,6 +11,44 @@ import { request as __request } from '../core/request';
 export class GroupsService {
 
     /**
+     * Get group access
+     * Get group access
+     * @param slug Group slug
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static getGroupAccess(
+        slug: string,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/groups/{slug}/access',
+            path: {
+                'slug': slug,
+            },
+            errors: {
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
+     * Get all group access
+     * Get all group access
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static getAllGroupAccess(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/groups/access',
+            errors: {
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
      * Get all groups
      * Get all groups
      * @returns Group OK

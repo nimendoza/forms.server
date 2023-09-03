@@ -27,6 +27,74 @@ tags:
     description: Scopes operations
 
 paths:
+  /v1/users/{email}/access:
+    get:
+      tags:
+        - users
+      summary: Get user access
+      description: Get user access
+      operationId: get_user_access
+      parameters:
+        - name: email
+          in: path
+          description: User email
+          required: true
+          schema:
+            type: string
+            format: email
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              type: object
+              required:
+                - message
+              message:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  
+  /v1/users/access:
+    get:
+      tags:
+        - users
+      summary: Get all user access
+      description: Get all user access
+      operationId: get_all_user_access
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              type: object
+              required:
+                - message
+              message:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
   /v1/users:
     get:
       tags:
@@ -279,7 +347,143 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
-  
+
+  /v1/users/verify:
+    post:
+      tags:
+        - auth
+      summary: Verify
+      description: Verify
+      operationId: verify
+      requestBody:
+        description: User token that needs to be verified
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+  /v1/users/{email}/enable:
+    put:
+      tags:
+        - users
+      summary: Enable a user
+      description: Enable a user
+      operationId: enable_user
+      parameters:
+        - name: email
+          in: path
+          description: User email
+          required: true
+          schema:
+            type: string
+            format: email
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/NotFound'
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/InternalServerError'
+
+  /v1/fields/{slug}/access:
+    get:
+      tags:
+        - fields
+      summary: Get field access
+      description: Get field access
+      operationId: get_field_access
+      parameters:
+        - name: slug
+          in: path
+          description: Field slug
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              type: object
+              required:
+                - message
+              message:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+
+  /v1/fields/access:
+    get:
+      tags:
+        - fields
+      summary: Get all field access
+      description: Get all field access
+      operationId: get_all_field_access
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              type: object
+              required:
+                - message
+              message:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+
   /v1/fields:
     get:
       tags:
@@ -483,6 +687,61 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
+
+  /v1/forms/{slug}/access:
+    get:
+      tags:
+        - forms
+      summary: Get form access
+      description: Get form access
+      operationId: get_form_access
+      parameters:
+        - name: slug
+          in: path
+          description: Form slug
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              type: object
+              required:
+                - message
+              message:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+
+  /v1/forms/access:
+    get:
+      tags:
+        - forms
+      summary: Get all form access
+      description: Get all form access
+      operationId: get_all_form_access
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              type: object
+              required:
+                - message
+              message:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
 
   /v1/forms:
     get:
@@ -688,6 +947,61 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
 
+  /v1/groups/{slug}/access:
+    get:
+      tags:
+        - groups
+      summary: Get group access
+      description: Get group access
+      operationId: get_group_access
+      parameters:
+        - name: slug
+          in: path
+          description: Group slug
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              type: object
+              required:
+                - message
+              message:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+
+  /v1/groups/access:
+    get:
+      tags:
+        - groups
+      summary: Get all group access
+      description: Get all group access
+      operationId: get_all_group_access
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              type: object
+              required:
+                - message
+              message:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+
   /v1/groups:
     get:
       tags:
@@ -891,6 +1205,61 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
+
+  /v1/privileges/{slug}/access:
+    get:
+      tags:
+        - privileges
+      summary: Get privilege access
+      description: Get privilege access
+      operationId: get_privilege_access
+      parameters:
+        - name: slug
+          in: path
+          description: Privilege slug
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              type: object
+              required:
+                - message
+              message:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+
+  /v1/privileges/access:
+    get:
+      tags:
+        - privileges
+      summary: Get all privilege access
+      description: Get all privilege access
+      operationId: get_all_privilege_access
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              type: object
+              required:
+                - message
+              message:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
 
   /v1/privileges:
     get:
@@ -1096,6 +1465,61 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
 
+  /v1/responses/{slug}/access:
+    get:
+      tags:
+        - responses
+      summary: Get response access
+      description: Get response access
+      operationId: get_response_access
+      parameters:
+        - name: slug
+          in: path
+          description: Response slug
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              type: object
+              required:
+                - message
+              message:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+
+  /v1/responses/access:
+    get:
+      tags:
+        - responses
+      summary: Get all response access
+      description: Get all response access
+      operationId: get_all_response_access
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              type: object
+              required:
+                - message
+              message:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+
   /v1/responses:
     get:
       tags:
@@ -1255,6 +1679,61 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
+
+  /v1/scopes/{slug}/access:
+    get:
+      tags:
+        - scopes
+      summary: Get scope access
+      description: Get scope access
+      operationId: get_scope_access
+      parameters:
+        - name: slug
+          in: path
+          description: Scope slug
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              type: object
+              required:
+                - message
+              message:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+
+  /v1/scopes/access:
+    get:
+      tags:
+        - scopes
+      summary: Get all scope access
+      description: Get all scope access
+      operationId: get_all_scope_access
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              type: object
+              required:
+                - message
+              message:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
 
   /v1/scopes:
     get:

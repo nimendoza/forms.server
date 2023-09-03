@@ -5,8 +5,10 @@ import { users, privileges as privilege_data, groups, responses } from 'orm'
 import { privileges } from 'orm/entities/privileges'
 import { validator } from 'utils'
 
-export const add_info = (requires: privileges, scope: string) => {
+export const add_info = (requires: privileges, scope: Set<string>, param: string='') => {
     return (req: Request, res: Response, next: NextFunction) => {
+        Object.values(req.params).map((value) => scope.add(value))
+
         req.requires = requires
         req.scope = scope
         next()
@@ -16,7 +18,9 @@ export const add_info = (requires: privileges, scope: string) => {
 export const check = async (req: Request, res: Response, next: NextFunction) => {
     if (!req.requires) {
         return next()
-    } else if (!req.scope) {
+    }
+    
+    if (!req.scope) {
         return res.status(401).json({ message: 'Unauthorized' }).end()
     }
     
@@ -30,19 +34,14 @@ export const check = async (req: Request, res: Response, next: NextFunction) => 
         return res.status(401).json({ message: 'Unauthorized' }).end()
     }
 
-    user.privileges.map((privilege) => {
-        if (privilege.type === req.requires && privilege.scope.slug === req.scope) {
+    const privileges = user.privileges.map((privilege) => privilege.slug)
+    user.groups.map((group) => group.privileges.map((privilege) => privileges.push(privilege.slug)))
+
+    for (const privilege of req.requires) {
+        if (privileges.includes(privilege)) {
             return next()
         }
-    })
-
-    user.groups.map((group) => {
-        group.privileges.map((privilege) => {
-            if (privilege.type === req.requires && privilege.scope.slug === req.scope) {
-                return next()
-            }
-        })
-    })
+    }
 
     return res.status(401).json({ message: 'Unauthorized' }).end()
 }
@@ -139,7 +138,7 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
         return res.status(404).json({ message: 'User not found' }).end()
     }
 
-    if (req.payload.user_id !== user.id || (validator.is_empty(req.requires) ? true : !user.privileges.find((privilege) => privilege.type === req.requires))) {
+    if (req.payload.user_id !== user.id) {
         return res.status(401).json({ message: 'Unauthorized' }).end()
     }
 
@@ -191,7 +190,29 @@ export const remove = async (req: Request, res: Response, next: NextFunction) =>
         return res.status(404).json({ message: 'User not found' }).end()
     }
 
-    if (req.payload.user_id !== user.id || (validator.is_empty(req.requires) ? true : !user.privileges.find((privilege) => privilege.type === req.requires))) {
+    if (req.payload.user_id !== user.id) {
+        return res.status(401).json({ message: 'Unauthorized' }).end()
+    }
+
+    return next()
+}
+
+export const enable = async (req: Request, res: Response, next: NextFunction) => {
+    if (!validator.is_email(req.params.email)) {
+        return res.status(400).json({ message: 'A valid email is required' }).end()
+    }
+
+    if (!req.payload || Object.keys(req.payload).length === 0) {
+        return res.status(401).json({ message: 'Unauthorized' }).end()
+    }
+
+    const user = await users.findOneBy({ email: req.params.email })
+
+    if (!user) {
+        return res.status(404).json({ message: 'User not found' }).end()
+    }
+
+    if (req.payload.user_id !== user.id) {
         return res.status(401).json({ message: 'Unauthorized' }).end()
     }
 

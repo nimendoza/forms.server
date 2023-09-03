@@ -2,7 +2,7 @@ import { data_source } from 'orm'
 import { Scope } from 'orm/entities/scopes'
 import { Privilege, privileges as privilege_enum } from 'orm/entities/privileges'
 import { Group } from 'orm/entities/groups'
-import { User } from 'orm/entities/users'
+import { User, state } from 'orm/entities/users'
 
 const seeder = async () => {
     await data_source.initialize()
@@ -352,6 +352,7 @@ const seeder = async () => {
         email: 'b2024nimendoza@pshs.edu.ph',
         name: 'Neomi Mendoza',
         password: 'password',
+        state: state.enabled,
         groups: [group],
     })
 

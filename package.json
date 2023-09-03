@@ -14,7 +14,8 @@
     "migrations:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert --dataSource ./src/orm/index.ts",
     "migrations:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate --pretty --dataSource ./src/orm/index.ts ./src/orm/migrations/migration",
     "migrations:create": "ts-node ./node_modules/typeorm/cli.js migration:create --pretty --dataSource ./src/orm/index.ts",
-    "types:generate": "openapi-typescript-codegen --input ./src/@types/openapi.yaml --output ./src/@types"
+    "seed": "ts-node ./src/orm/seeds/index.ts",
+    "types:generate": "npx openapi-typescript-codegen --input ./src/@types/openapi.yaml --output ./src/@types"
   },
   "repository": {
     "type": "git",

@@ -9,3 +9,13 @@ export const login = async (req: Request, res: Response) => {
 
     return res.status(200).json({ token }).end()
 }
+
+export const verify = async (req: Request, res: Response) => {
+    const user = await users.findOneBy({ id: req.payload!.user_id })
+
+    if (!user) {
+        return res.status(401).json({ message: 'Unauthorized' }).end()
+    }
+
+    return res.status(200).json(user!.to_JSON()).end()
+}

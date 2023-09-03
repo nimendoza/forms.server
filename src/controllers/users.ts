@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 
 import { User } from '@types'
-import { User as UserClass } from 'orm/entities/users'
+import { User as UserClass, state } from 'orm/entities/users'
 import { Group } from 'orm/entities/groups'
 import { Privilege } from 'orm/entities/privileges'
 import { Response as ResponseClass } from 'orm/entities/responses'
@@ -107,4 +107,18 @@ export const remove = async (req: Request, res: Response) => {
     await user!.remove()
 
     return res.status(204).end()
+}
+
+export const enable = async (req: Request, res: Response) => {
+    const user = await users.findOneBy({ email: req.params.email })
+
+    user!.state = state.enabled
+
+    await user!.save()
+
+    return res.status(200).json(user!.to_JSON()).end()
+}
+
+export const access = async (req: Request, res: Response) => {
+    return res.status(200).json({ message: 'Access granted' }).end()
 }

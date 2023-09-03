@@ -11,6 +11,44 @@ import { request as __request } from '../core/request';
 export class ResponsesService {
 
     /**
+     * Get response access
+     * Get response access
+     * @param slug Response slug
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static getResponseAccess(
+        slug: string,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/responses/{slug}/access',
+            path: {
+                'slug': slug,
+            },
+            errors: {
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
+     * Get all response access
+     * Get all response access
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static getAllResponseAccess(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/responses/access',
+            errors: {
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
      * Get all responses
      * Get all responses
      * @returns Success OK

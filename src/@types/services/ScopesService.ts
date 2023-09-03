@@ -11,6 +11,44 @@ import { request as __request } from '../core/request';
 export class ScopesService {
 
     /**
+     * Get scope access
+     * Get scope access
+     * @param slug Scope slug
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static getScopeAccess(
+        slug: string,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/scopes/{slug}/access',
+            path: {
+                'slug': slug,
+            },
+            errors: {
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
+     * Get all scope access
+     * Get all scope access
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static getAllScopeAccess(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/scopes/access',
+            errors: {
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
      * Get all scopes
      * Get all scopes
      * @returns Scope OK

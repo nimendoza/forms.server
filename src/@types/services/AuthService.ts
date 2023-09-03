@@ -35,4 +35,27 @@ export class AuthService {
         });
     }
 
+    /**
+     * Verify
+     * Verify
+     * @param requestBody User token that needs to be verified
+     * @returns User OK
+     * @throws ApiError
+     */
+    public static verify(
+        requestBody: Login,
+    ): CancelablePromise<User> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/users/verify',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Bad Request`,
+                404: `Not Found`,
+                500: `Internal Server Error`,
+            },
+        });
+    }
+
 }

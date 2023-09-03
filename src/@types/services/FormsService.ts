@@ -11,6 +11,44 @@ import { request as __request } from '../core/request';
 export class FormsService {
 
     /**
+     * Get form access
+     * Get form access
+     * @param slug Form slug
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static getFormAccess(
+        slug: string,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/forms/{slug}/access',
+            path: {
+                'slug': slug,
+            },
+            errors: {
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
+     * Get all form access
+     * Get all form access
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static getAllFormAccess(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/forms/access',
+            errors: {
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
      * Get all forms
      * Get all forms
      * @returns Form OK

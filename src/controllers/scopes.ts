@@ -69,3 +69,7 @@ export const remove = async (req: Request, res: Response) => {
 
     return res.status(200).json(scope!.to_JSON()).end()
 }
+
+export const access = async (req: Request, res: Response) => {
+    return res.status(200).json({ message: 'Access granted' }).end()
+}

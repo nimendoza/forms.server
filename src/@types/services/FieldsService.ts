@@ -11,6 +11,44 @@ import { request as __request } from '../core/request';
 export class FieldsService {
 
     /**
+     * Get field access
+     * Get field access
+     * @param slug Field slug
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static getFieldAccess(
+        slug: string,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/fields/{slug}/access',
+            path: {
+                'slug': slug,
+            },
+            errors: {
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
+     * Get all field access
+     * Get all field access
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static getAllFieldAccess(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/fields/access',
+            errors: {
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
      * Get all fields
      * Get all fields
      * @returns Field OK

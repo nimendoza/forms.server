@@ -6,7 +6,7 @@ declare global {
         interface Request {
             payload?: payload
             requires?: privileges
-            scope?: string
+            scope?: Set<string>
         }
     }
 }

@@ -107,3 +107,7 @@ export const remove = async (req: Request, res: Response) => {
 
     return res.status(204).end()
 }
+
+export const access = async (req: Request, res: Response) => {
+    return res.status(200).json({ message: 'Access granted' }).end()
+}

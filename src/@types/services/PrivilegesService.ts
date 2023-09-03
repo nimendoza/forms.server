@@ -11,6 +11,44 @@ import { request as __request } from '../core/request';
 export class PrivilegesService {
 
     /**
+     * Get privilege access
+     * Get privilege access
+     * @param slug Privilege slug
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static getPrivilegeAccess(
+        slug: string,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/privileges/{slug}/access',
+            path: {
+                'slug': slug,
+            },
+            errors: {
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
+     * Get all privilege access
+     * Get all privilege access
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static getAllPrivilegeAccess(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/privileges/access',
+            errors: {
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
      * Get all privileges
      * Get all privileges
      * @returns Privilege OK

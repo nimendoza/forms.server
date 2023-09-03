@@ -11,6 +11,46 @@ import { request as __request } from '../core/request';
 export class UsersService {
 
     /**
+     * Get user access
+     * Get user access
+     * @param email User email
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static getUserAccess(
+        email: string,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/users/{email}/access',
+            path: {
+                'email': email,
+            },
+            errors: {
+                401: `Unauthorized`,
+                500: `Internal Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Get all user access
+     * Get all user access
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static getAllUserAccess(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/users/access',
+            errors: {
+                401: `Unauthorized`,
+                500: `Internal Server Error`,
+            },
+        });
+    }
+
+    /**
      * Get all users
      * Get all users
      * @returns User OK
@@ -125,6 +165,28 @@ export class UsersService {
                 404: `Not Found`,
                 409: `Conflict`,
                 500: `Internal Server Error`,
+            },
+        });
+    }
+
+    /**
+     * Enable a user
+     * Enable a user
+     * @param email User email
+     * @returns User OK
+     * @throws ApiError
+     */
+    public static enableUser(
+        email: string,
+    ): CancelablePromise<User> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/v1/users/{email}/enable',
+            path: {
+                'email': email,
+            },
+            errors: {
+                401: `Unauthorized`,
             },
         });
     }

@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express'
 import { User } from '@types'
 import { users } from 'orm'
 import { validator } from 'utils'
+import { state } from 'orm/entities/users'
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
     const body = req.body as User
@@ -23,6 +24,10 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 
     if (!user.check_password(body.password)) {
         return res.status(400).json({ message: 'Password is incorrect' }).end()
+    }
+
+    if (user.state === state.disabled) {
+        return res.status(400).json({ message: 'User is disabled' }).end()
     }
 
     return next()
