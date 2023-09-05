@@ -6,7 +6,7 @@ import { payload, tokenize } from 'utils'
 
 const strict = (req: Request, res: Response, next: NextFunction) => {
     const auth = req.headers.authorization
-
+    
     if (!auth || Object.keys(auth).length === 0) {
         return res.status(401).json({ message: 'Unauthorized' }).end()
     }

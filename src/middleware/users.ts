@@ -16,14 +16,12 @@ export const add_info = (requires: privileges, scope: Set<string>, param: string
 }
 
 export const check = async (req: Request, res: Response, next: NextFunction) => {
-    if (!req.requires) {
+    if (!req.requires || !req.scope) {
         return next()
     }
-    
-    if (!req.scope) {
-        return res.status(401).json({ message: 'Unauthorized' }).end()
-    }
-    
+
+    const needed: Array<string>[] = Array.from(req.scope!).map((scope) => [req.requires!, scope!])
+
     if (!req.payload || Object.keys(req.payload).length === 0) {
         return res.status(401).json({ message: 'Unauthorized' }).end()
     }
@@ -34,14 +32,14 @@ export const check = async (req: Request, res: Response, next: NextFunction) => 
         return res.status(401).json({ message: 'Unauthorized' }).end()
     }
 
-    const privileges = user.privileges.map((privilege) => privilege.slug)
-    user.groups.map((group) => group.privileges.map((privilege) => privileges.push(privilege.slug)))
+    const privileges = user.privileges.map((privilege) => [privilege.slug, privilege.scope.slug])
+    user.groups.map((group) => group.privileges.map((privilege) => privileges.push([privilege.slug, privilege.scope.slug])))
 
-    for (const privilege of req.requires) {
-        if (privileges.includes(privilege)) {
+    needed.map((need) => {
+        if (privileges.includes(need)) {
             return next()
         }
-    }
+    })
 
     return res.status(401).json({ message: 'Unauthorized' }).end()
 }
@@ -68,7 +66,7 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
     }
 
     if (!Array.isArray(body.privileges)) {
-        return res.status(400).json({ message: 'The privileges field must be an array' }).end()
+        body.privileges = []
     }
 
     body.privileges!.map(async (privilege) => {
@@ -81,7 +79,7 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
     })
 
     if (!Array.isArray(body.groups)) {
-        return res.status(400).json({ message: 'The groups field must be an array' }).end()
+        body.groups = []
     }
 
     body.groups!.map(async (group) => {
@@ -94,7 +92,7 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
     })
 
     if (!Array.isArray(body.responses)) {
-        return res.status(400).json({ message: 'The responses field must be an array' }).end()
+        body.responses = []
     }
 
     body.responses!.map(async (response) => {

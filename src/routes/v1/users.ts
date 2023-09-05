@@ -8,7 +8,7 @@ import { check_token } from 'middleware/token'
 import { privileges } from 'orm/entities/privileges'
 
 const router = Router()
-router.post('/', check_token(true), add_info(privileges.CREATE, new Set(['users'])), check, check_create, create)
+router.post('/', check_create, create)
 router.get('/', check_token(true), add_info(privileges.READ, new Set(['users'])), check, check_get, list)
 router.get('/:email', check_token(true), add_info(privileges.READ, new Set(['users'])), check, check_get, get)
 router.put('/:email', check_token(true), add_info(privileges.EDIT, new Set(['users'])), check, check_update, update)
